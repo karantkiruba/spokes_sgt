@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-07-26 13:10:21.489864",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "module",
+  "user",
+  "design",
+  "reports",
+  "generate_html",
+  "html",
+  "js",
+  "css",
+  "create_custom_block"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "UHB-"
+  },
+  {
+   "fieldname": "module",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Module"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "design",
+   "fieldtype": "Table",
+   "label": "Doctype",
+   "options": "HTML Design"
+  },
+  {
+   "fieldname": "reports",
+   "fieldtype": "Table",
+   "label": "Reports",
+   "options": "Report Design"
+  },
+  {
+   "fieldname": "generate_html",
+   "fieldtype": "Button",
+   "label": "Generate HTML"
+  },
+  {
+   "fieldname": "html",
+   "fieldtype": "Code",
+   "label": "HTML"
+  },
+  {
+   "default": "const cards = root_element.querySelectorAll('.dashboard-card');\n\n// bind clicks\ncards.forEach(card => {\n  card.addEventListener('click', () => {\n    const doctype = card.getAttribute('data-doctype');\n    const report = card.getAttribute('data-report');\n    const page = card.getAttribute('data-page');\n    const doctypereport = card.getAttribute('data-doctypereport');\n\n    if (doctype && typeof specialReportDoctypes !== \"undefined\" && specialReportDoctypes[doctype]) {\n      // override default for special doctypes\n      frappe.set_route('query-report', specialReportDoctypes[doctype]);\n    } else if (doctype) {\n      frappe.set_route('List', doctype);\n    } else if (report) {\n      frappe.set_route('query-report', report);\n    } else if (page) {\n      frappe.set_route('Tree', page);\n    } else if (doctypereport) {\n      frappe.set_route('query-report', doctypereport);\n    }\n  });\n\n  // live count fetch\n  const doctype = card.getAttribute('data-doctype');\n  const countSpan = card.querySelector('span');\n\n  if (doctype && countSpan) {\n    frappe.call({\n      method: 'frappe.desk.reportview.get_count',\n      args: { doctype: doctype, filters: [] },  // add filters if needed\n      callback: function (r) {\n        countSpan.textContent = (r && r.message) ? r.message : \"0\";\n      }\n    });\n  }\n\n  // make it look clickable\n  card.style.cursor = \"pointer\";\n});\n",
+   "fieldname": "js",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "label": "JS",
+   "read_only": 1
+  },
+  {
+   "default": ".cardblock{\n    display:flex;\n    flex-direction:column;\n}\n.cardname{\n    display:flex;\n    align-items:center;\n}\n/* General Styles */\nbody {\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n    background-color: #f8f9fa;\n    min-height: 100vh;\n    padding: 20px;\n    margin: 0;\n}\n\n/* Container Styles */\n.container-fluid {\n    padding: 0 15px;\n}\n\n/* Section Titles */\n.section-title {\n    font-size: 28px;\n    font-weight: 700;\n    color: #212529;\n    margin-bottom: 24px;\n}\n\n/* Grid Layout */\n.row {\n    display: flex;\n    flex-wrap: wrap;\n    margin-right: -15px;\n    margin-left: -15px;\n}\n\n.g-4 {\n    gap: 16px;\n}\n\n.g-3 {\n    gap: 12px;\n}\n\n/* Master Card Styles */\n.master-card {\n    padding: 24px;\n    border-radius: 16px;\n    border: 1px solid;\n    height: 180px;\n    display: flex;\n    flex-direction: column;\n    cursor: pointer;\n    transition: all 0.3s ease;\n    box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n    margin-bottom: 16px;\n}\n\n.master-card:hover {\n    transform: translateY(-2px);\n    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);\n}\n\n.card-title {\n    font-size: 20px;\n    font-weight: 700;\n    color: #212529;\n    margin: 0;\n}\n\n.card-value {\n    font-size: 18px;\n    font-weight: 500;\n    color: #495057;\n}\n\n.card-footer {\n    position: relative;\n    padding-top: 8px;\n    margin-top: auto;\n}\n\n.card-footer::before {\n    content: '';\n    position: absolute;\n    left: 0;\n    right: 0;\n    top: 0;\n    height: 1px;\n    /*background: linear-gradient(to right, transparent, currentColor, transparent);*/\n    opacity: 0.3;\n}\n\n.card-footer p {\n    font-size: 14px;\n    margin: 0;\n    padding-top: 12px;\n}\n\n/* Reports Section Styles */\n.reports-section {\n    background: linear-gradient(to bottom right, rgba(239, 246, 255, 0.3), rgba(219, 234, 254, 0.3));\n    border: 1px solid rgba(191, 219, 254, 0.3);\n    border-radius: 16px;\n    padding: 32px;\n    margin-bottom: 32px;\n}\n\n.reports-container {\n    display: flex;\n    flex-direction: column;\n    gap: 32px;\n}\n\n.report-category-title {\n    font-size: 18px;\n    font-weight: 600;\n    color: #3b82f6;\n    margin-bottom: 16px;\n}\n\n.report-card {\n    padding: 16px;\n    border-radius: 8px;\n    background-color: white;\n    border: 1px solid transparent;\n    cursor: pointer;\n    transition: all 0.2s ease;\n    box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n.report-card:hover {\n    /*border-color: #3b82f6;*/\n    transform: translateY(-2px);\n    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);\n}\n\n.report-card h4 {\n    font-size: 14px;\n    font-weight: 500;\n    color: #495057;\n    margin: 0;\n    transition: color 0.2s;\n}\n\n.report-card:hover h4 {\n    color: #3b82f6;\n}\n\n/* Column Sizes */\n.col-md-6 {\n    flex: 0 0 50%;\n    max-width: 50%;\n}\n\n.col-lg-3 {\n    flex: 0 0 25%;\n    max-width: 25%;\n}\n\n.col-md-4 {\n    flex: 0 0 33.333333%;\n    max-width: 33.333333%;\n}\n\n/* Flex Utilities */\n.d-flex {\n    display: flex;\n}\n\n.flex-column {\n    flex-direction: column;\n}\n\n.align-items-center {\n    align-items: center;\n}\n\n.justify-content-center {\n    justify-content: center;\n}\n\n/* Background and Color Classes for Cards */\n.bg-sky {\n    background: linear-gradient(to bottom right, #f0f9ff, #e0f2fe);\n    border-color: #bae6fd;\n}\n\n.bg-sky .card-footer p {\n    color: #0ea5e9;\n}\n\n.bg-sky-500 {\n    background-color: #0ea5e9;\n}\n\n.bg-purple {\n    background: linear-gradient(to bottom right, #faf5ff, #f3e8ff);\n    border-color: #e9d5ff;\n}\n\n.bg-purple .card-footer p {\n    color: #9333ea;\n}\n\n.bg-purple-500 {\n    background-color: #9333ea;\n}\n\n.bg-fuchsia {\n    background: linear-gradient(to bottom right, #fdf4ff, #fae8ff);\n    border-color: #f5d0fe;\n}\n\n.bg-fuchsia .card-footer p {\n    color: #d946ef;\n}\n\n.bg-fuchsia-500 {\n    background-color: #d946ef;\n}\n\n.bg-teal {\n    background: linear-gradient(to bottom right, #f0fdfa, #ccfbf1);\n    border-color: #99f6e4;\n}\n\n.bg-teal .card-footer p {\n    color: #14b8a6;\n}\n\n.bg-teal-500 {\n    background-color: #14b8a6;\n}\n\n.bg-amber {\n    background: linear-gradient(to bottom right, #fffbeb, #fef3c7);\n    border-color: #fde68a;\n}\n\n.bg-amber .card-footer p {\n    color: #f59e0b;\n}\n\n.bg-amber-500 {\n    background-color: #f59e0b;\n}\n\n.bg-lime {\n    background: linear-gradient(to bottom right, #f7fee7, #ecfccb);\n    border-color: #d9f99d;\n}\n\n.bg-lime .card-footer p {\n    color: #84cc16;\n}\n\n.bg-lime-500 {\n    background-color: #84cc16;\n}\n\n.bg-blue {\n    background: linear-gradient(to bottom right, #eff6ff, #dbeafe);\n    border-color: #bfdbfe;\n}\n\n.bg-blue .card-footer p {\n    color: #3b82f6;\n}\n\n.bg-blue-500 {\n    background-color: #3b82f6;\n}\n\n.bg-cyan {\n    background: linear-gradient(to bottom right, #ecfeff, #cffafe);\n    border-color: #a5f3fc;\n}\n\n.bg-cyan .card-footer p {\n    color: #06b6d4;\n}\n\n.bg-cyan-500 {\n    background-color: #06b6d4;\n}\n\n.bg-rose {\n    background: linear-gradient(to bottom right, #fff1f2, #ffe4e6);\n    border-color: #fecdd3;\n}\n\n.bg-rose .card-footer p {\n    color: #f43f5e;\n}\n\n.bg-rose-500 {\n    background-color: #f43f5e;\n}\n\n.bg-violet {\n    background: linear-gradient(to bottom right, #f5f3ff, #ede9fe);\n    border-color: #ddd6fe;\n}\n\n.bg-violet .card-footer p {\n    color: #8b5cf6;\n}\n\n.bg-violet-500 {\n    background-color: #8b5cf6;\n}\n\n.bg-yellow {\n    background: linear-gradient(to bottom right, #fefce8, #fef9c3);\n    border-color: #fef08a;\n}\n\n.bg-yellow .card-footer p {\n    color: #eab308;\n}\n\n.bg-yellow-500 {\n    background-color: #eab308;\n}\n\n/* Gap Utilities */\n.gap-2 > * {\n    margin-right: 8px;\n    margin-bottom: 8px;\n}\n\n.gap-2 > *:last-child {\n    margin-right: 0;\n}\n\n.gap-3 > * {\n    margin-right: 12px;\n    margin-bottom: 12px;\n}\n\n.gap-3 > *:last-child {\n    margin-right: 0;\n}\n\n.gap-4 > * {\n    margin-right: 16px;\n    margin-bottom: 16px;\n}\n\n.gap-4 > *:last-child {\n    margin-right: 0;\n}\n/* Responsive Adjustments */\n@media (max-width: 991.98px) {\n    .col-lg-3 {\n        flex: 0 0 50%;\n        max-width: 50%;\n    }\n}\n\n@media (max-width: 767.98px) {\n    .col-md-6, .col-md-4, .col-lg-3 {\n        flex: 0 0 100%;\n        max-width: 100%;\n    }\n    \n    .section-title {\n        font-size: 24px;\n    }\n    \n    .master-card {\n        height: auto;\n        min-height: 160px;\n    }\n    \n    .reports-section {\n        padding: 20px;\n    }\n}\n\n/* Animation for hover effects */\n@keyframes cardHover {\n    from {\n        transform: translateY(0);\n        box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n    }\n    to {\n        transform: translateY(-2px);\n        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);\n    }\n}\n\n.master-card:hover {\n    animation: cardHover 0.3s ease forwards;\n}\n\n.report-card:hover {\n    animation: cardHover 0.2s ease forwards;\n}\n\n/* Container padding */\n.container-fluid {\n    padding: 20px;\n}\n\n/* Section titles */\n.section-title {\n    font-size: 1.5rem;\n    font-weight: 600;\n    margin-bottom: 1rem;\n    border-bottom: 2px solid #ddd;\n    padding-bottom: 0.5rem;\n}\n\n/* Simple grid fallback for Bootstrap's .row and .col-* */\n.row {\n    display: flex;\n    flex-wrap: wrap;\n    margin: -10px;\n}\n.col-md-6, .col-md-4, .col-lg-3 {\n    padding: 10px;\n    box-sizing: border-box;\n}\n.col-md-6 { width: 50%; }\n.col-md-4 { width: 33.3333%; }\n.col-lg-3 { width: 25%; }\n\n/* Responsive tweaks */\n@media (max-width: 992px) {\n    .col-lg-3 { width: 50%; }\n}\n@media (max-width: 768px) {\n    .col-md-6, .col-md-4, .col-lg-3 { width: 100%; }\n}\n\n/* Dashboard card styles */\n.dashboard-card {\n    /*background: white;*/\n    /*border-radius: 8px;*/\n    /*padding: 15px;*/\n    /*box-shadow: 0 2px 6px rgba(0,0,0,0.1);\n    transition: transform 0.2s, box-shadow 0.2s;\n    cursor: pointer;\n    text-align: center;*/\n}\n.dashboard-card:hover {\n    /*transform: translateY(-4px);\n    box-shadow: 0 4px 10px rgba(0,0,0,0.15);*/\n}\n.dashboard-card .card-header {\n    /*display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-direction: column;*/\n}\n.card-title {\n    font-size: 1.2rem;\n    font-weight: 600;\n}\n.card-value {\n    display: block;\n    font-size: 1.4rem;\n    font-weight: bold;\n    margin: 5px 0;\n}\n\n/* Report section */\n.report-category-title {\n    font-size: 1.2rem;\n    font-weight: 600;\n    margin: 1.5rem 0 1rem;\n}\n.report-card {\n    background: #f8f9fa;\n    padding: 15px;\n    border-radius: 10px;\n    transition: background 0.2s, transform 0.2s;\n    cursor: pointer;\n    text-align: center;\n}\n.report-card:hover {\n    background: #F7FDFF;\n    transform: translateY(-3px);\n}\n.report-card h4 {\n    margin: 0;\n    font-size: 1rem;\n    text-align: left;\n}\n\n/* Color utilities (Bootstrap-like) */\n.bg-sky       { background-color: #e0f2fe; }\n.bg-sky-500   { background-color: #0ea5e9; }\n.bg-purple    { background-color: #f3e8ff; }\n.bg-purple-500{ background-color: #8b5cf6; }\n.bg-fuchsia   { background-color: #fdf4ff; }\n.bg-fuchsia-500 { background-color: #d946ef; }\n.bg-teal      { background-color: #ccfbf1; }\n.bg-teal-500  { background-color: #14b8a6; }\n.bg-grape     {background-color: #EDF0FF; }\n/* Make icons white in colored circles */\n.card-icon i {\n    color: white !important;\n}\n\nbody {\n    font-family: Arial, sans-serif;\n    background: #f9fafb;\n    margin: 0;\n    padding: 20px;\n    color: #111;\n}\n\n.container {\n    max-width: 1400px;\n    margin: auto;\n}\n\nh2 {\n    font-size: 1.5rem;\n    margin: 30px 0 15px;\n}\n\n.grid {\n    display: grid;\n    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n    gap: 20px;\n}\n\n.card:hover {\n    transform: translateY(-3px);\n    box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n}\n\n.card h3 {\n    margin: 0;\n    font-size: 1.2rem;\n}\n\n.card .value {\n    display: block;\n    font-weight: bold;\n    font-size: 1rem;\n    margin-top: 20px;\n}\n\n.card p {\n    margin: 12px 0 12px;\n    font-size: 0.9rem;\n    color: #555;\n}\n\n/* Pastel background colors */\n.bg-sky { background: linear-gradient(135deg, #dbeafe, #eff6ff); }\n.bg-purple { background: linear-gradient(135deg, #ede9fe, #f3e8ff); }\n.bg-pink { background: linear-gradient(135deg, #fce7f3, #fdf2f8); }\n.bg-mint { background: linear-gradient(135deg, #dcfce7, #ecfdf5); }\n\n.bg-lightblue { background: linear-gradient(135deg, #dbeafe, #eff6ff); }\n.bg-orange { background: linear-gradient(135deg, #ffedd5, #fff7ed); }\n.bg-cyan { background: linear-gradient(135deg, #cffafe, #ecfeff); }\n.bg-lightred { background: linear-gradient(135deg, #fee2e2, #fff1f2); }\n.bg-green { background: linear-gradient(135deg, #dcfce7, #ecfdf5); }\n.bg-lightyellow { background: linear-gradient(135deg, #fef3c7, #fffbeb); }\n\n\n/* Background colors like first screenshot */\n.bg-lightblue { background: linear-gradient(135deg, #e6f0ff, #f0f6ff); }\n.bg-orange    { background: linear-gradient(135deg, #fff4e6, #fff9f0); }\n.bg-cyan      { background: linear-gradient(135deg, #e6faff, #f0fdff); }\n.bg-lightred  { background: linear-gradient(135deg, #ffe6e6, #fff0f0); }\n.bg-green     { background: linear-gradient(135deg, #e6fff2, #f0fff9); }\n.bg-lightyellow { background: linear-gradient(135deg, #fffbe6, #fffdf0); }\n.bg-purple    { background: linear-gradient(135deg, #f3e6ff, #faf0ff); }\n.bg-pink      { background: linear-gradient(135deg, #ffe6f2, #fff0f8); }\n\n/* Icon background colors */\n.bg-lightblue .icon { background-color: #4a90e2; }\n.bg-orange    .icon { background-color: #f5a623; }\n.bg-cyan      .icon { background-color: #50e3c2; }\n.bg-lightred  .icon { background-color: #e94e77; }\n.bg-green     .icon { background-color: #7ed321; }\n.bg-lightyellow .icon { background-color: #f8e71c; color: #000; }\n.bg-purple    .icon { background-color: #9013fe; }\n.bg-pink      .icon { background-color: #81D115; }\n\n/* ==== Icon-top (square) \u2014 scoped to your container/grid/cards ==== */\n.container .grid .card {\n  position: relative;\n  display: block;\n  padding: 20px;\n  padding-bottom: 0px;\n  overflow: visible;\n  border-radius: 12px;\n}\n\n/* absolute-position the icon at the top-center of the card */\n.container .grid .card .icon {\n    margin:0px;\n  width: 40px;\n  height: 40px;\n  border-radius: 10px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);\n  flex-shrink: 0;\n}\n\n.container .grid .card .header h3 {\n  margin: 0;\n  font-size: 1.2rem;\n  font-weight: 600;\n  margin-left: 8px;\n}\n\n/* icon font color / size */\n.container .grid .card .icon i {\n  font-size: 20px;\n  color: #fff;\n  \n}\n\n.container .grid .card .header {\n  display: flex;\n  align-items: center;\n}\n\n/* ensure the card text stays left-aligned and doesn't overlap the icon */\n/*.container .grid .card > div {*/\n  margin-top: 6px;     /* small extra gap */\n  padding-top: 6px;    /* safe space below the icon */\n/*}*/\n\n/* keep headings / values / descriptions left aligned */\n.container .grid .card h3,\n.container .grid .card .value,\n.container .grid .card p {\n  margin-left: 0;\n  text-align: left;\n  margin-top: 6px;\n  margin-bottom: 0;\n  font-weight: 500;\n  color: #555;\n}\n\n\n.container .grid .card .value {\n  font-size: 1rem;\n  font-weight: 600;\n  color: #111;\n}\n\n\n/* ==== pastel card background + icon color mapping (adjust to taste) ==== */\n.bg-sky      { background: linear-gradient(135deg,#eaf6ff,#eef9ff); border:1px solid rgba(56,142,255,0.08); }\n.bg-sky .icon { background: #0ea5e9; }\n\n.bg-purple      { background: linear-gradient(135deg,#fbf1ff,#f4ecff); border:1px solid rgba(139,92,246,0.06); }\n.bg-purple .icon { background: #8b5cf6; }\n\n.bg-pink      { background: linear-gradient(135deg,#fff1f5,#fff6fb); border:1px solid rgba(236,72,153,0.06); }\n.bg-pink .icon { background: #ff4fa3; }\n\n.bg-mint      { background: linear-gradient(135deg,#f0fff4,#f6fff9); border:1px solid rgba(34,197,94,0.06); }\n.bg-mint .icon { background: #10b981; }\n\n.bg-lightblue      { background: linear-gradient(135deg,#eef6ff,#f7fbff); border:1px solid rgba(99,102,241,0.06); }\n.bg-lightblue .icon { background: #3b82f6; }\n\n.bg-orange      { background: linear-gradient(135deg,#fff7ed,#fffaf0); border:1px solid rgba(249,115,22,0.06); }\n.bg-orange .icon { background: #f59e0b; }\n\n.bg-cyan      { background: linear-gradient(135deg,#ecfeff,#f0ffff); border:1px solid rgba(45,212,191,0.06); }\n.bg-cyan .icon { background: #06b6d4; }\n\n.bg-lightred      { background: linear-gradient(135deg,#fff0f1,#fff6f7); border:1px solid rgba(244,63,94,0.06); }\n.bg-lightred .icon { background: #ef4444; }\n\n.bg-green      { background: linear-gradient(135deg,#f0fff4,#f7fff7); border:1px solid rgba(34,197,94,0.06); }\n.bg-green .icon { background: #16a34a; }\n\n.bg-lightyellow      { background: linear-gradient(135deg,#fffbe6,#fffbf0); border:1px solid rgba(245,158,11,0.06); }\n.bg-lightyellow .icon { background: #f59e0b; color: #111; }\n.bg-lime .icon {background: #81D115; }\n.bg-grape .icon {background: #8B9DE0;\n\n.icon-container {\n    display: flex;\n    justify-content: flex-start; /* Push icons to the left */\n    align-items: center; /* Keep them vertically centered */\n    text-align: left;\n\n}",
+   "fieldname": "css",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "label": "CSS",
+   "read_only": 1
+  },
+  {
+   "fieldname": "create_custom_block",
+   "fieldtype": "Button",
+   "label": "Create Custom Block"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-04-13 10:46:58.671954",
+ "modified_by": "Administrator",
+ "module": "spokes_sgt",
+ "name": "User HTML Block",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

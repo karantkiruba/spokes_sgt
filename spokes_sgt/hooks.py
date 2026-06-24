@@ -6,6 +6,12 @@ app_email = "karantkiruba@hotmail.com"
 app_license = "mit"
 # required_apps = []
 
+fixtures = [
+	{"dt": "Custom Field","filters": [["module", "=", "spokes_sgt"]]},
+	{"dt": "Client Script","filters": [["module", "=", "spokes_sgt"]]},
+	{"dt": "Server Script","filters": [["module", "=", "spokes_sgt"]]}
+]
+
 # Includes in <head>
 # ------------------
 
