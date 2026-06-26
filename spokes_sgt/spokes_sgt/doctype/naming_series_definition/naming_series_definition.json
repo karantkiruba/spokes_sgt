@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "autoname": "field:allow",
+ "creation": "2024-05-09 19:48:24.051595",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "allow",
+  "series_list_section",
+  "series_list_definition"
+ ],
+ "fields": [
+  {
+   "fieldname": "allow",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Allow",
+   "options": "DocType",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "series_list_section",
+   "fieldtype": "Section Break",
+   "label": "Series List"
+  },
+  {
+   "fieldname": "series_list_definition",
+   "fieldtype": "Table",
+   "label": "Series List Definition",
+   "options": "Series List Definition"
+  }
+ ],
+ "links": [],
+ "modified": "2026-06-26 11:53:32.150512",
+ "modified_by": "Administrator",
+ "module": "spokes_sgt",
+ "name": "Naming Series Definition",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
